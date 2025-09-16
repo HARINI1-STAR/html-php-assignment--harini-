@@ -1,0 +1,34 @@
+<?php
+$text = "Hello World!";
+
+// strlen() - string length
+echo "Length of string: " . strlen($text) . "<br>";
+
+// str_word_count() - counts words
+echo "Word count: " . str_word_count($text) . "<br>";
+
+// strrev() - reverse string
+echo "Reversed string: " . strrev($text) . "<br>";
+
+// strpos() - find position of first occurrence
+echo "Position of 'World': " . strpos($text, "World") . "<br>";
+
+// str_replace() - replace text
+echo "Replace 'World' with 'PHP': " . str_replace("World", "PHP", $text) . "<br>";
+
+// strtoupper() - convert to uppercase
+echo "Uppercase: " . strtoupper($text) . "<br>";
+
+// strtolower() - convert to lowercase
+echo "Lowercase: " . strtolower($text) . "<br>";
+
+// ucfirst() - first letter uppercase
+echo "ucfirst: " . ucfirst("php is awesome") . "<br>";
+
+// ucwords() - first letter of each word uppercase
+echo "ucwords: " . ucwords("php string functions") . "<br>";
+
+// trim() - remove spaces from both ends
+$withSpaces = "   PHP Rocks!   ";
+echo "Trimmed string: '" . trim($withSpaces) . "'<br>";
+?>
