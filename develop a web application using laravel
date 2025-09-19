@@ -1,0 +1,68 @@
+<?php
+// routes/web.php
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+
+// Create table automatically if not exists
+if (!Schema::hasTable('todos')) {
+    Schema::create('todos', function (Blueprint $table) {
+        $table->id();
+        $table->string('title');
+        $table->boolean('done')->default(false);
+        $table->timestamps();
+    });
+}
+
+Route::get('/', function () {
+    $todos = DB::table('todos')->orderBy('id', 'desc')->get();
+    return view('welcome', compact('todos'));
+});
+
+Route::post('/add', function () {
+    DB::table('todos')->insert([
+        'title' => request('title'),
+        'done' => false,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+    return redirect('/');
+});
+
+Route::post('/{id}/toggle', function ($id) {
+    $todo = DB::table('todos')->find($id);
+    DB::table('todos')->where('id', $id)->update(['done' => !$todo->done]);
+    return redirect('/');
+});
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini Laravel Todo</title>
+</head>
+<body>
+  <h2>Todo List</h2>
+
+  <form method="POST" action="/add">
+    @csrf
+    <input type="text" name="title" placeholder="New task">
+    <button>Add</button>
+  </form>
+
+  <ul>
+    @foreach($todos as $todo)
+      <li>
+        <form method="POST" action="/{{ $todo->id }}/toggle" style="display:inline">
+          @csrf
+          <button>[{{ $todo->done ? '✔' : ' ' }}]</button>
+        </form>
+        {{ $todo->title }}
+      </li>
+    @endforeach
+  </ul>
+</body>
+</html>
+
+  
